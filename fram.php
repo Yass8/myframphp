@@ -16,7 +16,9 @@ $name = $argv[3] ?? null;
 switch ($action) {
     case '--help':
     case '-h':
-        include 'commands/help.php';
+        require_once 'commands/Help.php';
+        $help = new Help();
+        $help->display();
         break;
 
     case 'make':
