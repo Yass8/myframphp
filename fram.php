@@ -20,11 +20,11 @@ switch ($action) {
         break;
 
     case 'make':
-        handleMakeCommand($type, $name);
+        handleMakeModel($type, $name);
         break;
 
     case 'delete':
-        handleDelete($type, $name);
+        handleDeleteModel($type, $name);
         break;
 
     default:
@@ -37,7 +37,7 @@ switch ($action) {
  * @param string|null $type Le type de fichier à générer (ex. : 'model').
  * @param string|null $name Le nom du modèle à générer.
  */
-function handleMakeCommand(?string $type, ?string $name): void
+function handleMakeModel(?string $type, ?string $name): void
 {
     if (!$type) {
         die("Usage: php fram make [type] [Name]\n");
@@ -49,8 +49,9 @@ function handleMakeCommand(?string $type, ?string $name): void
             if (!$name) {
                 die("Veuillez fournir un nom pour le modèle.\nUsage: php fram make -m [ModelName]\n");
             }
-
-            include 'commands/make.php';
+            require_once 'commands/MakeModel.php';
+            $maker = new MakeModel($name);
+            $maker->execute();
             break;
 
         default:
@@ -65,7 +66,7 @@ function handleMakeCommand(?string $type, ?string $name): void
  * @param string|null $type Le type de fichier à générer (ex. : 'model').
  * @param string|null $name Le nom du modèle à générer.
  */
-function handleDelete(?string $type, ?string $name): void
+function handleDeleteModel(?string $type, ?string $name): void
 {
     if (!$type) {
         die("Usage: php fram delete [type] [Name]\n");
@@ -78,8 +79,8 @@ function handleDelete(?string $type, ?string $name): void
                 die("Veuillez fournir un nom pour le modèle.\nUsage: php fram delete -m [ModelName]\n");
             }
 
-            require_once 'commands/delete.php';
-            $deleter = new Delete($name);
+            require_once 'commands/DeleteModel.php';
+            $deleter = new DeleteModel($name);
             if ($deleter->modelExist()) {
                 $deleter->execute();
             } else {

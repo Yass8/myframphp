@@ -1,6 +1,6 @@
 <?php
 
-class Delete
+class DeleteModel
 {
     private string $modelName;
     private string $basePath;
