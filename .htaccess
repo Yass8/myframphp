@@ -1,0 +1,9 @@
+# Active le moteur de réécriture
+RewriteEngine on
+
+# Vérifie si le fichier ou le dossier demandé n'existe pas
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirige tout ce qui ne correspond pas à un fichier ou dossier existant vers index.php
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
