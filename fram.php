@@ -81,11 +81,7 @@ function handleDeleteModel(?string $type, ?string $name): void
 
             require_once 'commands/DeleteModel.php';
             $deleter = new DeleteModel($name);
-            if ($deleter->modelExist()) {
-                $deleter->execute();
-            } else {
-                die("Veuillez fournir un modèle existant pour la suppression d'un modèle.\n");
-            }
+            $deleter->execute();
             
             
             break;

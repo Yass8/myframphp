@@ -1,18 +1,25 @@
 <?php
 
-class DeleteModel
+require_once 'Terminal.php';
+
+class DeleteModel extends Terminal
 {
     private string $modelName;
-    private string $basePath;
+    private string $controllerName;
+    private string $viewsDir;
+    private string $modelFile;
+    private string $controllerFile;
 
-    /**
-     * Constructeur
-     * @param string $modelName Nom du modèle à supprimer
-     */
     public function __construct(string $modelName)
     {
+        parent::__construct($modelName);
+
         $this->modelName = ucfirst($modelName);
-        $this->basePath = __DIR__ . '/../app';
+        $this->controllerName = "{$this->modelName}Controller";
+        $baseDir = __DIR__ . '/../app';
+        $this->viewsDir = "{$baseDir}/views/" . strtolower($modelName);
+        $this->modelFile = "{$baseDir}/models/{$this->modelName}.php";
+        $this->controllerFile = "{$baseDir}/controllers/{$this->controllerName}.php";
     }
 
     /**
@@ -20,26 +27,22 @@ class DeleteModel
      */
     public function execute(): void
     {
-        // Chemins des fichiers et répertoires
-        $modelFile = "{$this->basePath}/models/{$this->modelName}.php";
-        $controllerFile = "{$this->basePath}/controllers/{$this->modelName}Controller.php";
-        $viewsDir = "{$this->basePath}/views/" . strtolower($this->modelName);
+        if (!$this->modelExist()) {
+            echo $this->error("Le modèle '{$this->modelName}' n'existe pas.\n");
+            return;
+        }
 
         // Supprimer le fichier du modèle
-        $this->deleteFile($modelFile);
+        $this->deleteFile($this->modelFile);
 
         // Supprimer le fichier du contrôleur
-        $this->deleteFile($controllerFile);
+        $this->deleteFile($this->controllerFile);
 
         // Supprimer le dossier des vues
-        $this->deleteDirectory($viewsDir);
+        $this->deleteDirectory($this->viewsDir);
 
-        // Code ANSI pour réinitialiser la couleur après l'affichage
-        $reset = "\033[0m";
-
-        $color = "\033[32m";
-
-        echo $color . "Tous les fichiers et répertoires du modèle '{$this->modelName}' ont été supprimés.\n" . $reset;
+        echo $this->success("Tous les fichiers et répertoires du modèle '{$this->modelName}' ont été supprimés! \n");
+        
     }
 
     /**
@@ -83,20 +86,4 @@ class DeleteModel
         }
     }
 
-    /**
-     * Vérification du modèle s'il existe.
-     *
-     * @param string $fileName Nom du fichier
-     */
-    public function modelExist()
-    {
-        $modelFilePath = "{$this->basePath}/models/{$this->modelName}.php";
-
-        if (file_exists($modelFilePath)) {
-            return true;
-        }
-
-        return false;
-
-    }
 }

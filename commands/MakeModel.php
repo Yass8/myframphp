@@ -1,6 +1,8 @@
 <?php
 
-class MakeModel
+require_once 'Terminal.php';
+
+class MakeModel extends Terminal
 {
     private string $modelName;
     private string $controllerName;
@@ -8,13 +10,11 @@ class MakeModel
     private string $modelFile;
     private string $controllerFile;
 
-    /**
-     * Constructeur de la classe.
-     *
-     * @param string $modelName Le nom du modèle à créer.
-     */
+    
     public function __construct(string $modelName)
     {
+        parent::__construct($modelName);
+
         $this->modelName = ucfirst($modelName);
         $this->controllerName = "{$this->modelName}Controller";
         $baseDir = __DIR__ . '/../app';
@@ -28,6 +28,11 @@ class MakeModel
      */
     public function execute(): void
     {
+        if ($this->modelExist()) {
+            echo $this->error("Le modèle '{$this->modelName}' existe déjà.\n");
+            return;
+        }
+        
         $this->createModel();
         $this->createController();
         $this->createViews();
@@ -85,10 +90,11 @@ class MakeModel
      */
     private function displaySuccessMessage(): void
     {
-        echo "Fichiers créés :\n";
-        echo " + {$this->modelFile}\n";
-        echo " + {$this->controllerFile}\n";
-        echo " + Dossier de vues : {$this->viewsDir}\n";
+        echo $this->success("Fichiers créés :\n
+        + {$this->modelFile}\n
+        + {$this->controllerFile}\n
+        + Dossier de vues : {$this->viewsDir}\n
+        ");
     }
 
     /**
