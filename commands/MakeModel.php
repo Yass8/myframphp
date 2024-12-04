@@ -58,10 +58,32 @@ class MakeModel extends Terminal
      */
     private function createController(): void
     {
+
         $content = "<?php\n\n" .
-            "require_once __DIR__ . '/../../core/Controller.php';\n\n" .
-            "class {$this->controllerName} extends Controller {\n" .
-            "    // Contrôleur: {$this->controllerName}\n" .
+            "require_once __DIR__ . '/Controller.php';\n" .
+            "require_once __DIR__ . '/../models/{$this->modelName}.php';\n\n" .
+            "class {$this->controllerName} extends Controller {\n\n" .
+            "    private {$this->modelName} \$model;\n\n" .
+            "    public function __construct()\n".
+            "    {\n".
+            "        \$this->model = new {$this->modelName}();\n".
+            "    }\n\n".
+
+            "    public function index() {\n".
+            "        \$this->render('index');\n".
+            "    }\n\n".
+
+            "    public function create() {\n".
+            "       \$this->render('create');\n".
+            "    }\n\n".
+
+            "    public function edit(\$id) {\n".
+            "        \$this->render('edit',['id'=>\$id]);\n".
+            "    }\n\n".
+
+            "    public function delete(\$id) {\n".
+            "         \$this->render('edit',['id'=>\$id]);\n".
+            "    }\n".
             "}\n";
 
         $this->createFile($this->controllerFile, $content, "Contrôleur créé : {$this->controllerFile}");
@@ -75,9 +97,10 @@ class MakeModel extends Terminal
         $this->createDirectory($this->viewsDir);
 
         $views = [
-            'edit.php' => "<!-- Vue: edit -->",
-            'create.php' => "<!-- Vue: create -->",
-            'index.php' => "<!-- Vue: index -->",
+            'edit.php' => "<!-- Vue($this->modelName): edit -->\n<h3>Page d'édition du modèle '$this->modelName'</h3>",
+            'create.php' => "<!-- Vue($this->modelName): create -->\n<h3>Page de création du modèle '$this->modelName'</h3>",
+            'index.php' => "<!-- Vue($this->modelName): index -->\n<h3>Page d'index du modèle '$this->modelName'</h3>",
+            'delete.php' => "<!-- Vue($this->modelName): delete -->\n<h3>Page de suppression du modèle '$this->modelName'</h3>",
         ];
 
         foreach ($views as $fileName => $content) {

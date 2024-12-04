@@ -6,4 +6,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Redirige tout ce qui ne correspond pas à un fichier ou dossier existant vers index.php
-RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+RewriteRule ^(.*)$ /myframphp/index.php?url=$1 [QSA,L]
+
+# Spécifie une page d'erreur personnalisée pour les erreurs 404
+ErrorDocument 404 /index.php?url=errors/404
