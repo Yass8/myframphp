@@ -38,9 +38,12 @@ myframphp/
 ├── core/
 │   └── Router.php    # Système de routage
 ├── public/           # Répertoire de stockage des fichiers publics
-│   ├── assets        # Fichiers publics
+│   ├── assets/       # Fichiers publics
 │   └── uploads/      # Répertoire de stockage des fichiers uploadés
-├── commands/         # Commandes CLI personnalisées
+├── cli/              # Commandes CLI personnalisées
+|   ├── Help.php      # Gère la commande help 
+|   ├── Make.php      # Gère les commandes de création des fichiers
+|   └── Delete.php    # Gère la commande de suppression des fichiers
 ├── configs/          # Fichiers de configuration
 |   └── constantes.php    # Constantes
 ├── .htaccess         # Réécriture d'URL pour un routage propre
