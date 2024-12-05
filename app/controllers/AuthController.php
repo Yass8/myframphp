@@ -26,19 +26,31 @@ class AuthController extends Controller
     public function signIn()
     {
         if (isset($_POST['signIn'])) {
+
+            $fields =[
+                'email' => $_POST['email'],
+                'password' => $_POST['password']
+            ];
+            $rules = [
+                'email' => ['required' => true, 'email' => true],
+                'password' => ['required' => true]
+            ];
+
+            $errors = $this->validateInput($fields, $rules);
             
-            $email = $_POST['email'] ?? '';
-            $password = $_POST['password'] ?? '';
-
-            $user = $this->authModel->login($email, $password);
-
-            if ($user) {
-                session_start();
-                $_SESSION['user'] = $user;
-                $this->render('dashboard',['user'=>$_SESSION['user']]);
-                $this->redirectTo("/auth/dashboard");
+            if (!empty($errors)) {
+                $this->render('login', ['errors' => $errors]);
             } else {
-                $this->render('login', ['error' => 'Identifiants incorrects.']);
+                $user = $this->authModel->login($fields['email'], $fields['password']);
+
+                if ($user) {
+                    session_start();
+                    $_SESSION['user'] = $user;
+                    $this->render('dashboard',['user'=>$_SESSION['user']]);
+                    $this->redirectTo("/auth/dashboard");
+                } else {
+                    $this->render('login', ['errors' => ['Identifiants incorrects.'] ]);
+                }
             }
         }
     }
@@ -56,20 +68,34 @@ class AuthController extends Controller
      */
     public function signUp()
     {
-        $nom = $_POST['nom'] ?? '';
-        $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
+        if (isset($_POST['signUp'])) {
 
-        if ($this->authModel->userExists($email)) {
-            $this->render('register', ['error' => 'Cet utilisateur est déjà inscrit.']);
-        } else {
-            if ($this->authModel->register(['nom' => $nom, 'email' => $email, 'password' => $password])) {
+            $fields =[
+                'nom' => $_POST['nom'],
+                'email' => $_POST['email'],
+                'password' => $_POST['password']
+            ];
+            $rules = [
+                'nom' => ['required' => true, 'min' => 3],
+                'email' => ['required' => true, 'email' => true],
+                'password' => ['required' => true, 'min' => 4]
+            ];
+            $errors = $this->validateInput($fields, $rules);
 
-                $this->redirectTo("/auth/login");
-
+            if (!empty($errors)) {
+                $this->render('register', ['errors' => $errors]);
             } else {
-                echo "Une erreur est survenue lors de l'inscription.";
-                $this->render('register', ['error' => 'Une erreur est survenue.']);
+                if ($this->authModel->userExists($fields['email'])) {
+                    $this->render('register', ['errors' => ['Cet utilisateur est déjà inscrit.']]);
+                } else {
+                    if ($this->authModel->register(['nom' => $fields['nom'], 'email' => $fields['email'], 'password' => $fields['password']])) {
+
+                        $this->redirectTo("/auth/login");
+
+                    } else {
+                        $this->render('register', ['errors' => ['Une erreur est survenue.']]);
+                    }
+                }
             }
         }
     }

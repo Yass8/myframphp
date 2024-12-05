@@ -18,11 +18,24 @@
         margin-top: 10px;
         margin-bottom: 10px;
     }
+
+    li{
+        color: red;
+    }
 </style>
 </head>
 <body>
     <div class="bloc">
         <h3>Connexion</h3>
+        <?php if(isset($errors) && count($errors) > 0 )  : ?>
+            <div class="">
+                <ul>
+                <?php foreach($errors as $error) : ?>
+                    <li><?php echo $error ?></li>
+                <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
         <form action="<?= BASE_URL ?>/auth/signIn" method="POST">
             <div class="form-control">
                 <label for="email">Adresse email</label>
