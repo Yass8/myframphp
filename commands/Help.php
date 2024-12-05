@@ -8,14 +8,14 @@ class Help
     public function display(): void
     {
         echo $this->getHeader();
-        echo "Usage : php fram <commande> [options] [arguments]\n\n";
+        echo "Usage : php cli.php <commande> [options] [arguments]\n\n";
         echo "Commandes disponibles :\n";
         echo $this->formatCommand('make', "Crée un modèle, un contrôleur et des vues associés.");
         echo $this->formatCommand('delete', "Supprime un modèle, un contrôleur et les vues associés.");
         echo $this->formatCommand('--help, -h', "Affiche cette aide.");
         echo "\nExemples :\n";
-        echo $this->formatExample("php fram make -m User", "Crée un modèle User.");
-        echo $this->formatExample("php fram delete -m User", "Supprime le modèle User et ses fichiers associés.");
+        echo $this->formatExample("php cli.php make -m User", "Crée un modèle User.");
+        echo $this->formatExample("php cli.php delete -m User", "Supprime le modèle User et ses fichiers associés.");
         echo "\n";
     }
 

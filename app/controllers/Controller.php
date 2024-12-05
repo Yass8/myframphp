@@ -21,7 +21,7 @@ class Controller{
     }
 
     public function show404(){
-        $viewPath = __DIR__ . "/../views/errors/404.php";
+        $viewPath = __views . "/errors/404.php";
         
         if (file_exists($viewPath)) {
             require_once $viewPath;
