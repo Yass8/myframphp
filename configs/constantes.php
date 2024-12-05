@@ -13,10 +13,8 @@
 
     define("__views", "app/views/");
 
+    define("__publics", "public/");
+
     $url = isset($_GET['url']) && !empty($_GET['url']) ? $_GET['url'] : 'home';
 
     define("__url", $url);
-
-
-    
-
