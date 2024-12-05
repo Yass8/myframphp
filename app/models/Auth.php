@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../core/Model.php';
+require_once __models . '/Model.php';
 
 class Auth extends Model
 {

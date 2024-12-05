@@ -45,7 +45,7 @@ class MakeModel extends Terminal
     private function createModel(): void
     {
         $content = "<?php\n\n" .
-            "require_once __DIR__ . '/../../core/Model.php';\n\n" .
+            "require_once __models . '/../../core/Model.php';\n\n" .
             "class {$this->modelName} extends Model {\n" .
             "    // Modèle: {$this->modelName}\n" .
             "}\n";
@@ -58,19 +58,20 @@ class MakeModel extends Terminal
      */
     private function createController(): void
     {
-
+        $model = lcfirst($this->modelName);
         $content = "<?php\n\n" .
-            "require_once __DIR__ . '/Controller.php';\n" .
-            "require_once __DIR__ . '/../models/{$this->modelName}.php';\n\n" .
+            "require_once __controllers . '/Controller.php';\n" .
+            "require_once __models . '/{$this->modelName}.php';\n\n" .
             "class {$this->controllerName} extends Controller {\n\n" .
             "    private {$this->modelName} \$model;\n\n" .
             "    public function __construct()\n".
             "    {\n".
-            "        \$this->model = new {$this->modelName}();\n".
+            "        \$this->$model = new {$this->modelName}();\n".
             "    }\n\n".
 
-            "    public function index() {\n".
-            "        \$this->render('index');\n".
+            "    public function index() {\n\n".
+            "        // \$$model = \$this->$model->`selectAll`('$model');\n\n".
+            "        \$this->render('index'/*, ['$model' => \$$model]*/);\n".
             "    }\n\n".
 
             "    public function create() {\n".
@@ -78,11 +79,11 @@ class MakeModel extends Terminal
             "    }\n\n".
 
             "    public function edit(\$id) {\n".
-            "        \$this->render('edit',['id'=>\$id]);\n".
+            "        \$this->render('edit');\n".
             "    }\n\n".
 
             "    public function delete(\$id) {\n".
-            "         \$this->render('edit',['id'=>\$id]);\n".
+            "        \$this->render('delete');\n".
             "    }\n".
             "}\n";
 

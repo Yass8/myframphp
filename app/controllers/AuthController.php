@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../models/Auth.php';
-require_once __DIR__ . '/Controller.php';
+require_once __controllers . '/Controller.php';
+require_once __models . '/Auth.php';
 
 class AuthController extends Controller
 {

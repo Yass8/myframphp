@@ -1,33 +1,36 @@
 <?php
 
-require_once __DIR__ . '/Controller.php';
-require_once __DIR__ . '/../models/Users.php';
+require_once __controllers . '/Controller.php';
+require_once __models . '/Users.php';
 
 class UsersController extends Controller {
 
-    private Users $model;
+    private Users $users;
 
     public function __construct()
     {
-        $this->model = new Users();
+        $this->users = new Users();
     }
 
     public function index() {
-        $this->render('index');
+        
+        $users = $this->users->selectAll('users');
+        
+        $this->render('index', ['users' => $users]);
     }
 
     public function create() {
-        $data = ['nom'=>'ali','email'=>'ali@y.fr','password'=>'pass1234'];
-        // $this->model->create('Users',$data);
 
         $this->render('create');
     }
 
     public function edit($id) {
-        $this->render('edit',['id'=>$id]);
+        
+        $this->render('edit');
     }
 
     public function delete($id) {
-         $this->render('edit',['id'=>$id]);
+
+        $this->render('edit',['id'=>$id]);
     }
 }
