@@ -102,4 +102,71 @@ class Controller{
         return $errors; // Retourne les erreurs détectées ou un tableau vide s'il n'y a aucune erreur.
     }
 
+    /**
+     * Valide les conditions pour l'upload d'un fichier.
+     *
+     * @param array $file Le fichier à valider ($_FILES['input_name'])
+     * @param array $allowedTypes Types MIME acceptés (e.g., ['image/jpeg', 'image/png'])
+     * @param int $maxSize Taille maximale du fichier en mega octets
+     * @return array Retourne un tableau avec 'success' => true/false et un 'message'
+     */
+    public function validateFile(array $file, array $allowedTypes, int $maxSize): array
+    {        
+        $size = $maxSize * 1024 * 1024;
+
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            return ['success' => false, 'message' => 'Une erreur est survenue lors de l\'upload.'];
+        }
+
+        // Vérifie le type MIME
+        if (!in_array($file['type'], $allowedTypes)) {
+            return ['success' => false, 'message' => 'Type de fichier non autorisé.'];
+        }
+
+        // Vérifie la taille du fichier  
+        if ($file['size'] > $size) {
+            return ['success' => false, 'message' => 'Le fichier est trop volumineux.'];
+        }
+
+        return ['success' => true, 'message' => 'Fichier valide.'];
+    }
+
+    /**
+     * Déplace un fichier téléchargé vers le chemin de stockage.
+     *
+     * @param array $file Le fichier téléchargé ($_FILES['input_name'])
+     * @param string $chemin Répertoire où déplacer le fichier (e.g: 'publications/images/')
+     * @return array Retourne un tableau avec 'success' => true/false et un 'message'
+     */
+    public function moveFile(array $file, string $chemin): array
+    {
+        $destination = __publics . 'uploads' . $chemin;
+
+        // Vérifie si le répertoire existe, sinon le créer
+        if (!is_dir($destination)) {
+            if (!mkdir($destination, 0777, true)) {
+                return ['success' => false, 'message' => 'Impossible de créer le répertoire de stockage.'];
+            }
+        }
+
+        // Générer un nom de fichier unique
+        $extension = pathinfo($file['name'], PATHINFO_EXTENSION); // Récupère l'extension du fichier
+        $uniqueFileName = uniqid('file_', true) . '.' . $extension;
+
+        // Construire le chemin complet du fichier
+        $filePath = rtrim($destination, '/') . '/' . $uniqueFileName;
+
+        // Déplacer le fichier
+        if (move_uploaded_file($file['tmp_name'], $filePath)) {
+            return [
+                'success' => true,
+                'message' => 'Fichier déplacé avec succès.',
+                'path' => $filePath
+            ];
+        }
+
+        return ['success' => false, 'message' => 'Échec du déplacement du fichier.'];
+    }
+
+
 }
