@@ -18,7 +18,7 @@ class Controller{
         extract($data);
 
         
-        $viewPath = __DIR__ . "/../views/{$model}/{$view}.php";
+        $viewPath = __views . "{$model}/{$view}.php";
         
         if (file_exists($viewPath)) {
             require_once $viewPath;
