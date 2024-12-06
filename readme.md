@@ -35,7 +35,7 @@ myframphp/
 │   ├── controllers/  # Contrôleurs
 │   ├── models/       # Modèles
 │   └── views/        # Vues
-├── core/
+├── routes/
 │   └── Router.php    # Système de routage
 ├── public/           # Répertoire de stockage des fichiers publics
 │   ├── assets/       # Fichiers publics
@@ -47,10 +47,8 @@ myframphp/
 ├── configs/          # Fichiers de configuration
 |   └── constantes.php    # Constantes
 ├── .htaccess         # Réécriture d'URL pour un routage propre
-├── index.php         # Point d'entrée principal
-├── cli.php           # Commandes cli
-├── builder.php       # Lance l'application
-└── constantes.php    # Constantes globales
+├── index.php         # Point d'entrée principal 
+└── cli.php           # Commandes cli
 ```
 
 ---

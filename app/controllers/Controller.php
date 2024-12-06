@@ -2,6 +2,13 @@
 
 class Controller{
 
+    /**
+     * Affiche la vue avec des données
+     *
+     * @param string $view
+     * @param array $data
+     * @return void
+     */
     public function render(string $view, array $data = []): void
     {
         // Déduit le modèle à partir du nom du contrôleur (ex: UserController -> user)
@@ -10,7 +17,7 @@ class Controller{
         // Rend les données accessibles comme variables
         extract($data);
 
-        // Chemin vers le fichier de vue
+        
         $viewPath = __DIR__ . "/../views/{$model}/{$view}.php";
         
         if (file_exists($viewPath)) {
@@ -20,6 +27,11 @@ class Controller{
         }
     }
 
+    /**
+     * Page 404
+     *
+     * @return void
+     */
     public function show404(){
         $viewPath = __views . "/errors/404.php";
         
@@ -30,6 +42,12 @@ class Controller{
         }
     }
 
+    /**
+     * Redirection des pages
+     *
+     * @param string $url
+     * @return void
+     */
     public function redirectTo(string $url) : void {
         header("Location: " . BASE_URL . $url);
         exit;
