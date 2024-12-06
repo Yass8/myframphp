@@ -2,7 +2,7 @@
 
 require_once 'Terminal.php';
 
-class MakeModel extends Terminal
+class Maker extends Terminal
 {
     private string $modelName;
     private string $controllerName;
@@ -45,7 +45,7 @@ class MakeModel extends Terminal
     private function createModel(): void
     {
         $content = "<?php\n\n" .
-            "require_once __models . '/../../core/Model.php';\n\n" .
+            "require_once __models . '/Model.php';\n\n" .
             "class {$this->modelName} extends Model {\n" .
             "    // Modèle: {$this->modelName}\n" .
             "}\n";

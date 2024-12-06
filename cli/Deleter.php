@@ -2,7 +2,7 @@
 
 require_once 'Terminal.php';
 
-class DeleteModel extends Terminal
+class Deleter extends Terminal
 {
     private string $modelName;
     private string $controllerName;

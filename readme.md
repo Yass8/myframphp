@@ -42,8 +42,8 @@ myframphp/
 │   └── uploads/      # Répertoire de stockage des fichiers uploadés
 ├── cli/              # Commandes CLI personnalisées
 |   ├── Help.php      # Gère la commande help 
-|   ├── Make.php      # Gère les commandes de création des fichiers
-|   └── Delete.php    # Gère la commande de suppression des fichiers
+|   ├── Maker.php      # Gère les commandes de création des fichiers
+|   └── Deleter.php    # Gère la commande de suppression des fichiers
 ├── configs/          # Fichiers de configuration
 |   └── constantes.php    # Constantes
 ├── .htaccess         # Réécriture d'URL pour un routage propre
