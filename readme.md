@@ -94,7 +94,7 @@ La classe `Router` analyse l'URL et détermine :
 Exemple d'utilisation dans `index.php` :
 
 ```php
-require_once '../core/Router.php';
+require_once '../routes/Router.php';
 $router = new Router(__url);
 $router->dispatch();
 ```
