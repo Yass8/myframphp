@@ -78,7 +78,7 @@ class AuthController extends Controller
             $rules = [
                 'nom' => ['required' => true, 'min' => 3],
                 'email' => ['required' => true, 'email' => true],
-                'password' => ['required' => true, 'min' => 4]
+                'password' => ['required' => true, 'min' => 6]
             ];
             $errors = $this->validateInput($fields, $rules);
 
